@@ -1,8 +1,8 @@
 .card {
   display: flex;
   gap: 30px;
-  width: 300px;
+  width: 340px;
   cursor: pointer;
-  height: 300px;
+  height: 340px;
   object-fit: cover;
 }
