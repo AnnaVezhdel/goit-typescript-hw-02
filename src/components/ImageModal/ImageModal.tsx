@@ -12,7 +12,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onRequestClose, image }
       <Modal
         isOpen={isOpen}
           onRequestClose={onRequestClose}
-          
+          ariaHideApp={false}
           className={s.modal}
       overlayClassName={s.overlay}
       >
