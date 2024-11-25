@@ -1,4 +1,6 @@
-const LoadMoreBtn = ({ setPage }) => {
+import { LoadMoreBtnProps } from "../App/App.types";
+
+const LoadMoreBtn: React.FC<LoadMoreBtnProps> = ({handleChangePage}) => {
   return (
     <div
       style={{
@@ -16,7 +18,7 @@ const LoadMoreBtn = ({ setPage }) => {
           backgroundColor: "darkblue",
           padding: "14px 20px",
         }}
-        onClick={() => setPage((prev) => prev + 1)}
+        onClick={handleChangePage}
       >
         Load more
       </button>

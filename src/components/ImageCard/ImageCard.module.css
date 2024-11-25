@@ -1,13 +1,8 @@
 .card {
   display: flex;
-  border-radius: 20px;
-  overflow: hidden;
-  gap: 20px;
-  width: calc((100% - 60px) / 4);
-  & img {
-    cursor: pointer;
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-  }
+  gap: 30px;
+  width: 400px;
+  cursor: pointer;
+  height: 400px;
+  object-fit: cover;
 }
