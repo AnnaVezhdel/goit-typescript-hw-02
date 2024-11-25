@@ -1,6 +1,6 @@
 import { LoadMoreBtnProps } from "../App/App.types";
 
-const LoadMoreBtn: React.FC<LoadMoreBtnProps> = ({handleChangePage}) => {
+const LoadMoreBtn: React.FC<LoadMoreBtnProps> = ({ handleChangePage }) => {
   return (
     <div
       style={{

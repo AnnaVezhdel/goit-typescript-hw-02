@@ -10,73 +10,73 @@ import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import SearchBar from '../SearchBar/SearchBar';
 import { useToggle } from '../../hooks/useToggle';
 import ImageModal from '../ImageModal/ImageModal';
-import { Image } from './App.types';
+import { Image, Response } from './App.types';
 import { fetchImages } from '../../api';
 
 
 const App = () => {
 
-  const [images, setImages] = useState<Image[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
-  const [query, setQuery] = useState<string>('');
+const [images, setImages] = useState<Image[]>([]);
+const [isLoading, setIsLoading] = useState<boolean>(false);
+const [isError, setIsError] = useState<boolean>(false);
+const [page, setPage] = useState<number>(1);
+const [query, setQuery] = useState<string>('');
 const [selectedImage, setSelectedImage] = useState<Image | null>(null);
-  const { isOpen, openModal, closeModal } = useToggle();
+const { isOpen, openModal, closeModal } = useToggle();
 
 
-  useEffect(() => {
+useEffect(() => {
 if (!query) {
-      return;
+    return;
+  }
+
+  const getData = async () => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      const data: Response = await fetchImages(page, query);
+    
+    setImages((prev) => [...prev, ...data.results]);
+    } catch {
+    setIsError(true);
     }
-
-    const getData = async () => {
-      try {
-        setIsError(false);
-        setIsLoading(true);
-        const data = await fetchImages(page, query);
-      
-      setImages((prev) => [...prev, ...data.results]);
-      } catch {
-      setIsError(true);
-      }
-      finally {
-        setIsLoading(false);
-      }
-    };
-    getData();
-  }, [page, query]);
-  
-  const handleChangePage = () => {
-    setPage((prev) => prev + 1);
-  }
-  
-  const handleSetQuery = (topic: string) => {
-    setQuery(topic);
-    setImages([]);
-    setPage(1);
-  }
-
-  const handleImageClick = (image: Image) => {
-    setSelectedImage(image);
-    openModal();
+    finally {
+      setIsLoading(false);
+    }
   };
+  getData();
+}, [page, query]);
 
-  return (
-    <div>
-      <SearchBar setQuery={handleSetQuery } />
-      {images.length > 0 && <ImageGallery images={images} handleImageClick={handleImageClick}/>}
-      {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
-      {images.length > 0 && <LoadMoreBtn handleChangePage={handleChangePage} />}
-      {selectedImage &&
-        (<ImageModal
-          isOpen={isOpen}
-          onRequestClose={closeModal}
-          image={selectedImage}
-        />)}
-    </div>
-  )
+const handleChangePage = () => {
+  setPage((prev) => prev + 1);
+}
+
+const handleSetQuery = (topic: string) => {
+  setQuery(topic);
+  setImages([]);
+  setPage(1);
+}
+
+const handleImageClick = (image: Image) => {
+  setSelectedImage(image);
+  openModal();
+};
+
+return (
+  <div>
+    <SearchBar setQuery={handleSetQuery } />
+    {images.length > 0 && <ImageGallery images={images} handleImageClick={handleImageClick}/>}
+    {isLoading && <Loader />}
+    {isError && <ErrorMessage />}
+    {images.length > 0 && <LoadMoreBtn handleChangePage={handleChangePage} />}
+    {selectedImage &&
+      (<ImageModal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        image={selectedImage}
+      />)}
+  </div>
+)
 }
 
 export default App
